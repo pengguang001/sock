@@ -16,6 +16,15 @@ pattern(char *ptr, int len)
 {
 	char	c;
 
+	/* david */
+	FILE* fp = fopen(write_file, "rb");
+	if (fp) {
+		writelen = fread(ptr, 1, len, fp);
+		if (verbose) fprintf(stderr, "%d bytes from %s\n", writelen, write_file);
+		fclose(fp);
+		return;
+	}
+
 	c = 0;
 	while(len-- > 0)  {
 		while(isprint((c & 0x7F)) == 0)

@@ -75,6 +75,7 @@ int		udp;				/* use UDP instead of TCP */
 int		urgwrite;			/* write urgent byte after this write */
 int		verbose;			/* each -v increments this by 1 */
 int		usewritev;			/* use writev() instead of write() */
+char	write_file[32] = {0};
 
 struct sockaddr_in	cliaddr, servaddr;
 
@@ -90,7 +91,7 @@ main(int argc, char *argv[])
 		usage("");
 
 	opterr = 0;		/* don't want getopt() writing to stderr */
-	while ( (c = getopt(argc, argv, "2b:cf:g:hij:kl:n:op:q:r:st:uvw:x:y:ABCDEFG:H:IJ:KL:NO:P:Q:R:S:TU:VWX:YZ")) != -1) {
+	while ( (c = getopt(argc, argv, "2b:cf:g:hij:kl:m:n:op:q:r:st:uvw:x:y:ABCDEFG:H:IJ:KL:NO:P:Q:R:S:TU:VWX:YZ")) != -1) {
 		switch (c) {
 #ifdef	IP_ONESBCAST
 		case '2':			/* use 255.255.255.255 as broadcast address */
@@ -144,6 +145,10 @@ main(int argc, char *argv[])
 			*ptr++ = 0;					/* null replaces final period */
 			bindport = atoi(ptr);		/* port number */
 			strcpy(localip, optarg);	/* save dotted-decimal IP */
+			break;
+
+		case 'm':			/* write() from a file */
+			strcpy(write_file, optarg);
 			break;
 
 		case 'n':			/* number of buffers to write */
@@ -391,6 +396,7 @@ usage(const char *msg)
 #endif
 "         -k    write or writev in chunks\n"
 "         -l a.b.c.d.p  client's local IP address = a.b.c.d, local port# = p\n"
+"         -m file  fill write buffer with the content of a file\n"
 "         -n n  #buffers to write for \"source\" client (default 1024)\n"
 "         -o    do NOT connect UDP client\n"
 "         -p n  #ms to pause before each read or write (source/sink)\n"

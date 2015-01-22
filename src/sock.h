@@ -112,6 +112,7 @@ extern int		udp;
 extern int		urgwrite;
 extern int		verbose;
 extern int		usewritev;
+extern char		write_file[];
 
 extern struct sockaddr_in	cliaddr, servaddr;
 
