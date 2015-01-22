@@ -39,3 +39,10 @@ to compile for android:
 cd <ANDR_TOP>
 mmm <SOCK_DIR>/src
 ```
+
+to compile in ndk:
+
+```sh
+cd <SOCK_DIR>
+ndk-build
+```
